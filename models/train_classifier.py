@@ -114,6 +114,16 @@ def build_model():
         ('clf', MultiOutputClassifier(RandomForestClassifier(n_estimators=500, min_samples_leaf=1)))
     ])
     
+    parameters = {
+        'vect__max_df': [0.5, 0.75, 1],
+        'tfidf__sublinear_tf': [True, False],
+        'tfidf__use_idf': (True, False),
+        'clf__estimator__n_estimators' : [100, 250, 500],
+        'clf__estimator__min_samples_leaf': [1, 2, 4]
+    }    
+
+    cv = GridSearchCV(pipeline, param_grid=parameters)
+        
     return pipeline
 
 def evaluate_model(model, X_test, Y_test, category_names):
@@ -152,7 +162,7 @@ def save_model(model, model_filepath):
     Outputs:
         None
     '''
-    dump(model, model_filepath)
+    dump(model.best_estimator__, model_filepath)
 
 
 def main():
