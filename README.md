@@ -84,9 +84,7 @@ This project has three phases and therefore, three separate, but related sets of
    These were found using GridSearch to provide some level of accuracy improvements to the model at the expense of runtime.
    It was found that often, the Udacity workspace would timeout or go dormant waiting for the model to process completely. 
    Even when running the python scripts from a command line, the author's machine took several hours to complete.
-   The following is based on the tuned model's classification matrices outputs:
-   `
-   `
+
 3. The Webapp is a simple page that takes a message string and attempts to classify it. While accuracy is not bad (many
    categories had 85-95% accuracy when trained on 70% of the dataset, some issues were noticed when running new message strings.
    "My son is lost" and "My family is missing" were not able to be classified into the correct categories - "missing person"
