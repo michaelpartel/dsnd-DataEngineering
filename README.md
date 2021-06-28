@@ -47,15 +47,28 @@ All nltk punkt, wordnet and stopwords are downloaded. Otherwise, the libraries a
     1. Message data in CSV format that contains: ID, Message, Original, Genre
   - disaster_categories.csv:
     1. Category classifiaction data that contains: ID, classification string for 36 categories
+  - ETL Pipeline Preparation.ipynb:
+    1. Jupyter Notebook of the `process_data.py` script. This file represents the initial work performed in order to 
+       build the eventual python script.
+  - DisasterResponse.db:
+    1. SQL Database generated from the provided `messages.csv` and `categories.csv` data files. This will be overwritten whenever 
+       `process_data.py` is run with the same name.
 ./models:
   - train_classifier.py: Call with: `python models/train_classifier.py data/DisasterResponse.db models/classifier.pkl`
     1. Load SQL database at the specified path
     2. Build, train, and predict on a model using the DB
     3. Evaluate the model
     4. Save the model as a pkl file in the specified location
+  - classifier.pkl: Note - cannot be uploaded to github due to the size. Please run the `train_model.py` script.
+    1. This is a pkl file for the model selected in `ML Pipeline Preparation.ipynb` and `train_classifier.py` that is based 
+       on the best_estimator__ from the GridSearch and has the parameters noted below in Results.
+  - ML Pipeline Preparation.ipynb:
+    1. Jupyter Notebook of the `train_classifier.py` script. This file represents the intial work performed in order to build 
+       the eventual python script. Additionally, it contains the work done with GridSearchCV to identify a more accurate (not 
+       more efficient / optimum) model.
 ./app:
   - run.py:
-    1. Extended template for a flask app that opens the DisasterResponse.db database, classifier.pkl model,
+    1. Extended template for a flask app that opens the `DisasterResponse.db` database, `classifier.pkl` model,
        and processes three plotly visualizations. Plots include Genre distribution counts, category
        distributions, and similar-themed category distribution skew.
 
@@ -67,9 +80,13 @@ This project has three phases and therefore, three separate, but related sets of
 2. The ML Pipeline reads in the database generated previosuly and prepares it for machine learning algorithms focused
    on text processing. Here, CountVectorizer and TfidfVectorizer are used with the custom tokenizer function (normalize,
    stem, lemmatize, remove stopwords) before being processes with RandomForrest or MultinomialNB classifier. Key parameters
-   chosen include: blah blah blah. These were found using GridSearch to provide some level of accuracy improvements to the
-   model at the expense of runtime. It was found that often, the Udacity workspace would timeout or go dormant waiting for
-   the model to process completely.
+   chosen include: Vect (max_df = 0.75), TFIDF (sublinear_tf = False) and CLF (n_estimators = 500, min_samples_lead = 1). 
+   These were found using GridSearch to provide some level of accuracy improvements to the model at the expense of runtime.
+   It was found that often, the Udacity workspace would timeout or go dormant waiting for the model to process completely. 
+   Even when running the python scripts from a command line, the author's machine took several hours to complete.
+   The following is based on the tuned model's classification matrices outputs:
+   `
+   `
 3. The Webapp is a simple page that takes a message string and attempts to classify it. While accuracy is not bad (many
    categories had 85-95% accuracy when trained on 70% of the dataset, some issues were noticed when running new message strings.
    "My son is lost" and "My family is missing" were not able to be classified into the correct categories - "missing person"
