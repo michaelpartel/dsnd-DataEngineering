@@ -75,8 +75,9 @@ def clean_data(df):
     
     #for column in categories:
     for column in categories:
-        # convert column from string to numeric
-        categories[column] = pd.to_numeric(categories[column])
+    	# convert column from string to numeric
+    	categories[column] = pd.to_numeric(categories[column])
+    categories = categories.mask(categories > 1,1)
 
     # drop the original categories column from `df`
     df = df.drop(['categories'],axis=1)

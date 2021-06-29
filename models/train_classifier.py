@@ -109,17 +109,17 @@ def build_model():
                 and MultiOutputClassifier version of RandomForestClassifier / MultinomialNB
     '''
     pipeline = Pipeline([
-        ('vect', CountVectorizer(tokenizer=tokenize, max_df=0.75)),
-        ('tfidf', TfidfTransformer(sublinear_tf=False)),
-        ('clf', MultiOutputClassifier(RandomForestClassifier(n_estimators=500, min_samples_leaf=1)))
+        ('vect', CountVectorizer(tokenizer=tokenize)),
+        ('tfidf', TfidfTransformer()),
+        ('clf', MultiOutputClassifier(RandomForestClassifier()))
     ])
     
     parameters = {
-        'vect__max_df': [0.5, 0.75, 1],
+        'vect__max_df': [0.75, 1],
         'tfidf__sublinear_tf': [True, False],
         'tfidf__use_idf': (True, False),
-        'clf__estimator__n_estimators' : [100, 250, 500],
-        'clf__estimator__min_samples_leaf': [1, 2, 4]
+        'clf__estimator__n_estimators' : [100, 500],
+        'clf__estimator__min_samples_leaf': [1, 4]
     }    
 
     cv = GridSearchCV(pipeline, param_grid=parameters)
